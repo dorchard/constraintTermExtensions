@@ -65,7 +65,7 @@
 > myParseHsModule :: String -> Either String Module
 > myParseHsModule = parseResultToEither . parseModuleWithMode myParseMode
 
-> header = "{-# LANGUAGE TypeFamilies #-}\n{-# LANGUAGE GADTs #-}\n\n"
+> header = "{-# LANGUAGE FlexibleInstances #-}\n{-# LANGUAGE UndecidableInstances #-}\n{-# LANGUAGE TypeFamilies #-}\n{-# LANGUAGE GADTs #-}\n\n"
 
 > usageMessage = "usage:\t constraintTermExts input.hs output.hs\n or"++
 >                 "\t constraintTermExts input.hs\n\n"
