@@ -17,4 +17,4 @@ instance Functor [] where
     fmap f = Prelude.map f
 
 x = (fmap :: (FunctorConst [] a , FunctorConst [] b) => (a -> b) -> f a -> f b) (*2) [1,2,3]
-
+y = (fmap :: (FunctorConst Set a , FunctorConst Set b) => (a -> b) -> f a -> f b) (*2) [1,2,3]
