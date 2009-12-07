@@ -1,7 +1,6 @@
 > module Main where
 
 > import Language.Haskell.Meta.Parse
-> import Language.Haskell.Exts.Extension
 > import Language.Haskell.Exts.Fixity
 > import Language.Haskell.Exts.Syntax
 > import Language.Haskell.Exts.Parser
@@ -10,6 +9,7 @@
 
  import System.IO
 
+> import Rewrite.Helpers
 > import Rewrite.Synonyms
 > import Rewrite.Families
 > import Rewrite.PreTransform
@@ -36,7 +36,7 @@
 >   parsed <- return $ myParseHsModule (preTransform input)
 >   case parsed of
 >      Left err -> print err
->      Right x -> writeFile outFile (header ++ (pprHsModule (transform x)))
+>      Right x -> writeFile outFile (header ++ (pprHsModule $ transform x))
 
 > mainB inFile = do
 >   input <- readFile inFile
@@ -45,29 +45,12 @@
 >      Left err -> print err
 >      Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
 
-> myExtensions :: [Extension]
-> myExtensions = [PostfixOperators,
->                 QuasiQuotes,
->                 UnicodeSyntax,
->                 PatternSignatures,
->                 MagicHash,
->                 ForeignFunctionInterface,
->                 TemplateHaskell,
->                 RankNTypes,
->                 MultiParamTypeClasses,
->                 RecursiveDo,
->                 TypeFamilies,
->                 KindSignatures,
->                 FlexibleContexts]
-
-                 ScopedTypeVariables
-
-> myParseHsModule :: String -> Either String Module
-> myParseHsModule = parseResultToEither . parseModuleWithMode myParseMode
-
-> myParseMode = defaultParseMode{extensions = myExtensions}
-
-> header = "{-# LANGUAGE FlexibleInstances #-}\n{-# LANGUAGE UndecidableInstances #-}\n{-# LANGUAGE TypeFamilies #-}\n{-# LANGUAGE GADTs #-}\n\n"
+> header = concatMap (\x -> "{-#"++x++"#-}\n") ["FlexibleContexts",
+>                                               "FlexibleInstances",
+>                                               "UndecidableInstances",
+>                                               "TypeFamilies",
+>                                               "GADTs"]
+>                                         
 
 > usageMessage = "usage:\t constraintTermExts input.hs output.hs\n or"++
 >                 "\t constraintTermExts input.hs\n\n"
