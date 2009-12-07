@@ -1,3 +1,11 @@
+Author: Dominic Orchard
+License: BSD
+
+Prototype implementation of constraint synonsm and constraint families as described in
+"Haskell Type Constraints Unleashed" (Dominic Orchard, Tom Schrijvers)
+
+The following code is based on Mark P. Jones "Type Haskell in Haskell" code.
+
 > {-# LANGUAGE FlexibleInstances #-}
 
 > module Rewrite.Unify where

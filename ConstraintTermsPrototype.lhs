@@ -1,3 +1,9 @@
+Author: Dominic Orchard
+License: BSD
+
+Prototype implementation of constraint synonsm and constraint families as described in
+"Haskell Type Constraints Unleashed" (Dominic Orchard, Tom Schrijvers)
+
 > module Main where
 
 > import Language.Haskell.Meta.Parse
