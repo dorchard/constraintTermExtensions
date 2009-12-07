@@ -26,6 +26,12 @@ constraint synonyms (that look like functions) to their class/instance encoding
 >             context = interpretValueAsConstraint rhs
 >           
 >       otherwise -> error "Constraint synonym is malformed in RHS"
+
+> processDecls (FunBind (x@(Match s (Ident "constraint") pats
+>                        typ (UnGuardedRhs rhs) binds):xs)) = 
+>      (processDecls (FunBind [x]))++(processDecls (FunBind xs))
+>     
+
 > processDecls x = [(x, 0)]
 
 convertToClassParams: interpret function paramters as class parameters

@@ -8,6 +8,8 @@
 
 > import System.Environment
 
+ import System.IO
+
 > import Rewrite.Synonyms
 > import Rewrite.Families
 > import Rewrite.PreTransform
@@ -19,10 +21,15 @@
 > main = do
 >   xs <- getArgs
 >   case xs of
->     [] -> putStr usageMessage
 >     [x] -> mainB x
 >     [x,y] -> mainA x y
+>     [x,y,z] -> mainA y z
 >     otherwise -> putStr usageMessage
+
+> mainC input =
+>     case myParseHsModule (preTransform input) of
+>          Left err -> print err
+>          Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
 
 > mainA inFile outFile = do
 >   input <- readFile inFile
@@ -37,13 +44,6 @@
 >   case parsed of
 >      Left err -> print err
 >      Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
-
-> myParseMode :: ParseMode
-> myParseMode = ParseMode
->  {parseFilename = [],
->   extensions = myExtensions,
->   ignoreLanguagePragmas = False,
->   fixities = baseFixities}
 
 > myExtensions :: [Extension]
 > myExtensions = [PostfixOperators,
@@ -64,6 +64,8 @@
 
 > myParseHsModule :: String -> Either String Module
 > myParseHsModule = parseResultToEither . parseModuleWithMode myParseMode
+
+> myParseMode = defaultParseMode{extensions = myExtensions}
 
 > header = "{-# LANGUAGE FlexibleInstances #-}\n{-# LANGUAGE UndecidableInstances #-}\n{-# LANGUAGE TypeFamilies #-}\n{-# LANGUAGE GADTs #-}\n\n"
 
