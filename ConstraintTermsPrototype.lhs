@@ -6,10 +6,10 @@ Prototype implementation of constraint synonsm and constraint families as descri
 
 > module Main where
 
-> import Language.Haskell.Meta.Parse
 > import Language.Haskell.Exts.Fixity
 > import Language.Haskell.Exts.Syntax
 > import Language.Haskell.Exts.Parser
+> import Language.Haskell.Exts.Pretty
 
 > import System.Environment
 
@@ -35,21 +35,21 @@ Prototype implementation of constraint synonsm and constraint families as descri
 > mainC input =
 >     case myParseHsModule (preTransform input) of
 >          Left err -> print err
->          Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
+>          Right x -> putStr $ (header ++ (prettyPrint $ transform x) ++ "\n\n")
 
 > mainA inFile outFile = do
 >   input <- readFile inFile
 >   parsed <- return $ myParseHsModule (preTransform input)
 >   case parsed of
 >      Left err -> print err
->      Right x -> writeFile outFile (header ++ (pprHsModule $ transform x))
+>      Right x -> writeFile outFile (header ++ (prettyPrint $ transform x))
 
 > mainB inFile = do
 >   input <- readFile inFile
 >   parsed <- return $ myParseHsModule (preTransform input)
 >   case parsed of
 >      Left err -> print err
->      Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
+>      Right x -> putStr $ (header ++ (prettyPrint $ transform x) ++ "\n\n")
 
 > header = concatMap (\x -> "{-# LANGUAGE "++x++" #-}\n") ["FlexibleContexts",
 >                                               "FlexibleInstances",

@@ -13,7 +13,6 @@ The following code is based on Mark P. Jones "Type Haskell in Haskell" code.
 > import Data.List
 > import Control.Monad
 
-> import Language.Haskell.Meta
 > import Language.Haskell.Exts.Syntax
     
 Based on Mark P. Jones' Typing Haskell in Haskell

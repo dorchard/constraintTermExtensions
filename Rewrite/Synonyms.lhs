@@ -6,7 +6,6 @@ Prototype implementation of constraint synonsm and constraint families as descri
 
 > module Rewrite.Synonyms(rewriteSynonyms) where
 >
-> import Language.Haskell.Meta
 > import Language.Haskell.Exts.Syntax
 >
 > import Rewrite.Helpers

@@ -5,9 +5,9 @@ Prototype implementation of constraint synonsm and constraint families as descri
 "Haskell Type Constraints Unleashed" (Dominic Orchard, Tom Schrijvers)
 
 > module Rewrite.Helpers where
->
-> import Language.Haskell.Meta
+
 > import Language.Haskell.Exts.Parser
+> import Language.Haskell.Exts.Pretty
 > import Language.Haskell.Exts.Syntax
 > import Language.Haskell.Exts.Extension
 
@@ -31,7 +31,9 @@ Parse our Haskell with the following parsing with the following extensions
                  ScopedTypeVariables
 
 > myParseHsModule :: String -> Either String Module
-> myParseHsModule = parseResultToEither . parseModuleWithMode myParseMode
+> myParseHsModule input = case (parseModuleWithMode myParseMode input) of
+>                     ParseOk x -> Right x
+>                     ParseFailed _ s -> Left s
 
 > myParseMode = defaultParseMode{extensions = myExtensions}
 
@@ -92,7 +94,7 @@ pretty printing any terms, only whole modules.
 >           match = Match (SrcLoc "" 1 1) (Ident "reserved") [] Nothing rhs (BDecls [])
 >           auxMod = Module (SrcLoc "" 2 1) (ModuleName "aux") [] Nothing Nothing []
 >                                     [FunBind [match]]
->           pretty = pprHsModule auxMod
+>           pretty = prettyPrint auxMod
 >           justConstraint = tail $ dropWhile ((/=) '=') pretty
 >           typeTerm = (parseTypeWithMode myParseMode) (justConstraint ++ "=>a")         
 >          in
@@ -110,7 +112,7 @@ way as interpreterValueAsConstraint
 >           typeSig = TypeSig (SrcLoc "" 1 1) [(Ident "reserved")] typeTerm
 >           auxMod = Module (SrcLoc "" 2 1) (ModuleName "aux") [] Nothing Nothing []
 >                                     [typeSig]
->           pretty = pprHsModule auxMod
+>           pretty = prettyPrint auxMod
 >           justConstraint = tail $ dropWhile' ((/=) "::") pretty
 >           typeTerm' = (parseTypeWithMode myParseMode) (justConstraint ++ "=>a")         
 >          in

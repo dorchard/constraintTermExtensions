@@ -10,7 +10,6 @@ Prototype implementation of constraint synonsm and constraint families as descri
 > import Data.List
 > import Data.Maybe
 
-> import Language.Haskell.Meta
 > import Language.Haskell.Exts.Syntax
 
 > import Rewrite.Helpers
