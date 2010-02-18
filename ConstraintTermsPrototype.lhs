@@ -51,7 +51,7 @@ Prototype implementation of constraint synonsm and constraint families as descri
 >      Left err -> print err
 >      Right x -> putStr $ (header ++ (pprHsModule $ transform x) ++ "\n\n")
 
-> header = concatMap (\x -> "{-#"++x++"#-}\n") ["FlexibleContexts",
+> header = concatMap (\x -> "{-# LANGUAGE "++x++" #-}\n") ["FlexibleContexts",
 >                                               "FlexibleInstances",
 >                                               "UndecidableInstances",
 >                                               "TypeFamilies",
